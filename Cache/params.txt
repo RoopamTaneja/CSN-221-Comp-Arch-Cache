@@ -1,4 +1,4 @@
 Cache Size (in KB) : 
-Associativity (1/2/4/8/16) : 
-Block Size (in bytes) : 
+Associativity (power of 2) : 
+Block Size (in bytes and multiple of 4) : 
 Miss Penalty (in no of cycles) : 

@@ -38,9 +38,9 @@ You can also add you own traces in .txt format.
 1. Cache configuration parameters must be specified only in `params.txt` file present in Cache folder.
 
 2. Parameters needed to be specified :
-   - Cache Size (in KB and power of 2)
+   - Cache Size (in KB)
    - Associativity (power of 2)
-   - Block Size (in bytes and power of 2)
+   - Block Size (in bytes and multiple of 4)
    - Miss Penalty (in no of cycles)
   
 3. The memory is BYTE-ADDRESSABLE.
@@ -57,24 +57,7 @@ You can also add you own traces in .txt format.
       
 6. Remember to change the size of main_memory array in `cache_sim.cpp` according to the addresses of your trace. (Current size of 1 MB works fine with all traces in `small_traces` folder)
 
-### Calculations : 
-
-  Hit Rate = hits / (hits + misses)
-  Miss Rate = 1 - Hit Rate
-
-  Cache access and operation time = 1 cycle (common to hits & misses)
-  Miss Penalty = Main memory access and operation time (for misses) = User specified
-  Extra penalty for memory writes for dirty evictions = 2 cycles
-
-  AMAT = Hit Rate * Hit Time + Miss Rate * Miss Time
-  = Hit Rate * 1 + Miss Rate * (1 + miss_pen) + (dirty_evict * 2)/(hits+misses)
-  = 1 + miss_rate * miss_pen + (dirty_evict * 2) / (hits + misses)
-
-  Assuming CPI = 1 for non-load store instructions:
-  Overall CPI = total_cycles / total_instr_ct
-  Memory CPI = Overall CPI - 1
-
-### Calculations :
+## Calculations :
 
 - **Hit Rate**: $$\frac{{\text{{hits}}}}{{\text{{hits}} + \text{{misses}}}}$$
 - **Miss Rate**: 1 - hit_rate
@@ -84,20 +67,103 @@ You can also add you own traces in .txt format.
 
 The Average Memory Access Time (AMAT) is calculated as follows:
 
+```math
 $$\text{{AMAT}} = \text{{hit\_rate}} \times \text{{hit\_time}} + \text{{miss\_rate}} \times \text{{miss\_time}}$$
 $$\text{{AMAT}} = \text{{hit\_rate}} \times 1 + \text{{miss\_rate}} \times (1 + \text{{miss\_pen}}) + \frac{{\text{{dirty\_evict}} \times 2}}{{\text{{hits}} + \text{{misses}}}}$$
 $$\text{{AMAT}} = 1 + \text{{miss\_rate}} \times \text{{miss\_pen}} + \frac{{\text{{dirty\_evict}} \times 2}}{{\text{{hits}} + \text{{misses}}}}$$
+```
 
 Assuming CPI = 1 for non-load store instructions :
 
-- **Overall CPI**: $$\frac{{\text{{total\_cycles}}}}{{\text{{total\_instr\_ct}}}}$$
+- **Overall CPI**: 
+  ```math
+  $$\frac{{\text{{total\_cycles}}}}{{\text{{total\_instr\_ct}}}}$$
+  ```
 - **Memory CPI**: Overall CPI - 1
 
-### Do have a look at `state_table.xlsx`, it tabulates the states of cache blocks and their transitions and the few design choices made to simplify the design.
+**Do have a look at `state_table.xlsx`, it tabulates the states of cache blocks and their transitions and the few design choices made to simplify the design.**
 
-### Comparative Study :
+## Comparative Study :
 
-### References :
+### go_ld_trace: 
+Memory accesses = 1500000<br>
+Loads = 1500000<br>
+Stores = 0 (so no dirty evictions)<br>
+Miss penalty = 30 cycles<br>
+
+1. Block Size = 32 bytes and Associativity = 4
+
+| Cache Size (KB) | No of Hits | Hit Rate (%) | AMAT (cycles) |
+| --------------- | ---------- | ------------ | ------------- |
+| 1               | 1036092    | 69.0728      | 10.2782       |
+| 4               | 1366131    | 91.0754      | 3.67738       |
+| 16              | 1486499    | 99.0999      | 1.27002       |
+| 64              | 1494746    | 99.6497      | 1.10508       |
+
+![Alt text](graphs/image.png)
+
+2. Cache Size = 4 KB and Associativity = 4
+
+| Block Size (bytes) | No of Hits | Hit Rate (%) | AMAT (cycles) |
+| ------------------ | ---------- | ------------ | ------------- |
+| 4                  | 1431605    | 95.4403      | 2.3679        |
+| 16                 | 1411710    | 94.114       | 2.7658        |
+| 64                 | 1306340    | 87.0893      | 4.8732        |
+
+![Alt text](graphs/image-1.png)
+
+3. Cache Size = 4 KB and Block Size = 16 bytes
+
+| Associativity | No of Hits | Hit Rate (%) | AMAT (cycles) |
+| ------------- | ---------- | ------------ | ------------- |
+| 1 (DM)        | 1301464    | 86.7643      | 4.97072       |
+| 4             | 1411710    | 94.114       | 2.7658        |
+| 16            | 1435415    | 95.6943      | 2.2917        |
+| 64            | 1439722    | 95.9815      | 2.20556       |
+| 256 (FA)      | 1440581    | 96.0387      | 2.18838       |
+
+![Alt text](graphs/image-2.png)
+
+### mcf_trace: 
+Memory accesses = 6943857<br>
+Loads = 5589472<br>
+Stores = 1354385<br>
+Miss penalty = 30 cycles<br>
+
+1. Block Size = 32 bytes and Associativity = 4
+
+| Cache Size (KB) | Hits    | Dirty Evictions | Hit Rate (%) | AMAT (cycles) |
+| --------------- | ------- | --------------- | ------------ | ------------- |
+| 4               | 3783501 | 1061484         | 54.487       | 14.9596       |
+| 16              | 3850460 | 1043876         | 55.4513      | 14.6653       |
+| 64              | 4018157 | 999959          | 57.8664      | 13.9281       |
+
+![Alt text](graphs/image-3.png)
+
+2. Cache Size = 64 KB and Associativity = 4
+
+| Block Size (bytes) | Hits    | Dirty Evictions | Hit Rate (%) | AMAT (cycles) |
+| ------------------ | ------- | --------------- | ------------ | ------------- |
+| 16                 | 3359735 | 999732          | 48.3843      | 16.7727       |
+| 32                 | 4018157 | 999959          | 57.8664      | 13.9281       |
+| 64                 | 4617352 | 1006328         | 66.4955      | 11.3412       |
+| 128                | 5360904 | 940748          | 77.2035      | 8.10989       |
+
+![Alt text](graphs/image-4.png)
+
+3. Cache Size = 4 KB and Block Size = 64 bytes
+
+| Associativity | Hits    | Dirty Evictions | Hit Rate (%) | AMAT (cycles) |
+| ------------- | ------- | --------------- | ------------ | ------------- |
+| 1 (DM)        | 4346281 | 1065500         | 62.5917      | 12.5294       |
+| 4             | 4495260 | 1043702         | 64.7372      | 11.8794       |
+| 16            | 4496183 | 1043955         | 64.7505      | 11.8755       |
+| 32            | 4495408 | 1044430         | 64.7394      | 11.879        |
+| 64 (FA)       | 4495266 | 1044598         | 64.7373      | 11.8797       |
+
+![Alt text](graphs/image-5.png)
+
+## References :
 1. https://occs.oberlin.edu/~ctaylor/classes/210SP13/cache.html
 2. https://www.cs.utexas.edu/users/mckinley/352/homework/project.html
 3. http://www.cs.uccs.edu/~xzhou/teaching/CS4520/Projects/Cache/Cache_Simulator.htm
