@@ -59,7 +59,10 @@ You can also add you own traces in .txt format.
 
 ## Calculations :
 
-- **Hit Rate**: $$\frac{{\text{{hits}}}}{{\text{{hits}} + \text{{misses}}}}$$
+- **Hit Rate**: 
+  
+  $$ \text{{Hit Rate}} = \frac{{\text{{hits}}}}{{\text{{hits}} + \text{{misses}}}}$$
+
 - **Miss Rate**: 1 - hit_rate
 - **Cache access and operation time**: 1 cycle (common to hits & misses)
 - **Miss Penalty**: Main memory access and operation time (for misses) = User specified
@@ -104,7 +107,7 @@ Miss penalty = 30 cycles<br>
 | 16              | 1486499    | 99.0999      | 1.27002       |
 | 64              | 1494746    | 99.6497      | 1.10508       |
 
-![Alt text](graphs/image.png)
+![Alt text](https://drive.google.com/uc?id=1_fRCZht0V5jooh1XhQwKeNLAPrfG4rOX)
 
 2. Cache Size = 4 KB and Associativity = 4
 
@@ -114,7 +117,7 @@ Miss penalty = 30 cycles<br>
 | 16                 | 1411710    | 94.114       | 2.7658        |
 | 64                 | 1306340    | 87.0893      | 4.8732        |
 
-![Alt text](graphs/image1.png)
+![Alt text](https://drive.google.com/uc?id=1NaiN7nG6UNtClCTSlMKS2ougTXQco8-F)
 
 3. Cache Size = 4 KB and Block Size = 16 bytes
 
@@ -126,7 +129,7 @@ Miss penalty = 30 cycles<br>
 | 64            | 1439722    | 95.9815      | 2.20556       |
 | 256 (FA)      | 1440581    | 96.0387      | 2.18838       |
 
-![Alt text](graphs/image2.png)
+![Alt text](https://drive.google.com/uc?id=1jC1W543K_aPbTttTRQR87VHZcmDdNaFx)
 
 ### mcf_trace: 
 Memory accesses = 6943857<br>
@@ -142,7 +145,7 @@ Miss penalty = 30 cycles<br>
 | 16              | 3850460 | 1043876         | 55.4513      | 14.6653       |
 | 64              | 4018157 | 999959          | 57.8664      | 13.9281       |
 
-![Alt text](graphs/image3.png)
+![Alt text](https://drive.google.com/uc?id=1mwmaXhBlT11mZMMzmu7O1NC8isz0uGuh)
 
 2. Cache Size = 64 KB and Associativity = 4
 
@@ -153,7 +156,7 @@ Miss penalty = 30 cycles<br>
 | 64                 | 4617352 | 1006328         | 66.4955      | 11.3412       |
 | 128                | 5360904 | 940748          | 77.2035      | 8.10989       |
 
-![Alt text](graphs/image4.png)
+![Alt text](https://drive.google.com/uc?id=1tdaD-_F5T5oPWnHJSenhJSLDphsRfwuV)
 
 3. Cache Size = 4 KB and Block Size = 64 bytes
 
@@ -165,7 +168,7 @@ Miss penalty = 30 cycles<br>
 | 32            | 4495408 | 1044430         | 64.7394      | 11.879        |
 | 64 (FA)       | 4495266 | 1044598         | 64.7373      | 11.8797       |
 
-![Alt text](graphs/image5.png)
+![Alt text](https://drive.google.com/uc?id=16kRMsYNJhwYhuSUx-E0N0a_CN1V46_fy)
 
 ## References :
 1. https://occs.oberlin.edu/~ctaylor/classes/210SP13/cache.html
