@@ -81,7 +81,7 @@ Assuming CPI = 1 for non-load store instructions :
 
 - **Overall CPI**: 
   ```math
-  $$\frac{{\text{{total\_cycles}}}}{{\text{{total\_instr\_ct}}}}$$
+  $$\text{{CPI}} = \frac{{\text{{total\_cycles}}}}{{\text{{instr\_ct}}}}$$
   ```
 - **Memory CPI**: Overall CPI - 1
 
@@ -104,7 +104,7 @@ Miss penalty = 30 cycles<br>
 | 16              | 1486499    | 99.0999      | 1.27002       |
 | 64              | 1494746    | 99.6497      | 1.10508       |
 
-![Alt text](/graphs/image.png)
+![Alt text](image.png)
 
 2. Cache Size = 4 KB and Associativity = 4
 
@@ -114,7 +114,7 @@ Miss penalty = 30 cycles<br>
 | 16                 | 1411710    | 94.114       | 2.7658        |
 | 64                 | 1306340    | 87.0893      | 4.8732        |
 
-![Alt text](/graphs/image-1.png)
+![Alt text](image-1.png)
 
 3. Cache Size = 4 KB and Block Size = 16 bytes
 
@@ -126,7 +126,7 @@ Miss penalty = 30 cycles<br>
 | 64            | 1439722    | 95.9815      | 2.20556       |
 | 256 (FA)      | 1440581    | 96.0387      | 2.18838       |
 
-![Alt text](/graphs/image-2.png)
+![Alt text](image-2.png)
 
 ### mcf_trace: 
 Memory accesses = 6943857<br>
@@ -142,7 +142,7 @@ Miss penalty = 30 cycles<br>
 | 16              | 3850460 | 1043876         | 55.4513      | 14.6653       |
 | 64              | 4018157 | 999959          | 57.8664      | 13.9281       |
 
-![Alt text](/graphs/image-3.png)
+![Alt text](image-3.png)
 
 2. Cache Size = 64 KB and Associativity = 4
 
@@ -153,7 +153,7 @@ Miss penalty = 30 cycles<br>
 | 64                 | 4617352 | 1006328         | 66.4955      | 11.3412       |
 | 128                | 5360904 | 940748          | 77.2035      | 8.10989       |
 
-![Alt text](/graphs/image-4.png)
+![Alt text](image-4.png)
 
 3. Cache Size = 4 KB and Block Size = 64 bytes
 
@@ -165,7 +165,7 @@ Miss penalty = 30 cycles<br>
 | 32            | 4495408 | 1044430         | 64.7394      | 11.879        |
 | 64 (FA)       | 4495266 | 1044598         | 64.7373      | 11.8797       |
 
-![Alt text](/graphs/image-5.png)
+![Alt text](image-5.png)
 
 ## References :
 1. https://occs.oberlin.edu/~ctaylor/classes/210SP13/cache.html
