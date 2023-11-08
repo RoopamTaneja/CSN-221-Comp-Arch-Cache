@@ -66,7 +66,7 @@ You can also add you own traces in .txt format.
 - **Miss Rate**: 1 - hit_rate
 - **Cache access and operation time**: 1 cycle (common to hits & misses)
 - **Miss Penalty**: Main memory access and operation time (for misses) = User specified
-- **Extra penalty for memory writes for dirty evictions**: 2 cycles
+- **Extra penalty for memory writes for dirty evictions**: 2 cycles (assumed)
 
 The Average Memory Access Time (AMAT) is calculated as follows:
 
