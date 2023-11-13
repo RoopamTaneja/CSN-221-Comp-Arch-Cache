@@ -79,6 +79,19 @@ vector<int> memRead(trace_data &trace, int block_size, long long offset_mask)
     return memResp;
 }
 
+// more straightforward:
+// vector<int> memRead2(trace_data &trace, int block_size, long long offset_mask)
+// {
+//     long long mask = ~offset_mask;
+//     long long addr = trace.address;
+//     addr >>= 2;
+//     addr &= mask;
+//     vector<int> memResp;
+//     for (int i = 0; i < block_size; i++)
+//         memResp.emplace_back(main_memory[addr + i]);
+//     return memResp;
+// }
+
 void memWrite(long long addr, int block_size, vector<int> &data)
 {
     for (int i = 0; i < block_size; i++)
@@ -197,12 +210,11 @@ public:
         return evict_ind;
     }
 
-    void evict(cache_block &evict_block, CPUreq &newRequest, int &dirty_evict, int &cycles)
+    void evict(cache_block &evict_block, CPUreq &newRequest, int &dirty_evict)
     {
         if (evict_block.valid_bit && evict_block.dirty_bit) // write back for dirty block
         {
             dirty_evict++;
-            cycles += 2; // memory write
             long long addr = evict_block.tag << (index_size + offset_size);
             addr += newRequest.index << (offset_size);
             addr <<= 2; // byte addressable
@@ -254,7 +266,6 @@ int main(int argc, char *argv[])
     string write_policy = "Write Back and Write Allocate";
     Cache cache(cache_size, ways, block_size);
     int hits = 0, misses = 0, reads = 0, writes = 0, dirty_evict = 0;
-    int cycles = 0, instr_count = 0;
 
     // Reading Traces
     vector<trace_data> traces = readTraces(traceFile);
@@ -266,7 +277,6 @@ int main(int argc, char *argv[])
         int CPUresp;
         bool miss = true;
         vector<cache_block> &set = cache.cache_array[newRequest.index];
-        cycles++; // cache access + operation time
         for (int i = 0; i < cache.ways; i++)
         {
             cache_block &block = set[i];
@@ -293,7 +303,6 @@ int main(int argc, char *argv[])
         if (miss) // miss
         {
             misses++;
-            cycles += miss_pen; // miss penalty (memory access + read)
             vector<int> memResp = memRead(trace, cache.block_size, cache.offset_mask);
             cache_block newBlock(cache.block_size);
             newBlock.data_block = memResp;
@@ -303,7 +312,7 @@ int main(int argc, char *argv[])
             {
                 int evict_ind = cache.replace(newRequest);
                 cache_block evict_block = set[evict_ind];
-                cache.evict(evict_block, newRequest, dirty_evict, cycles);
+                cache.evict(evict_block, newRequest, dirty_evict);
                 insertion_ind = evict_ind;
             }
             if (!newRequest.read_write) // read

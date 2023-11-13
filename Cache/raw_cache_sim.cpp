@@ -242,7 +242,6 @@ int main(int argc, char *argv[])
         vector<cache_block> &set = cache.cache_array[newRequest.index];
         instr_count += newRequest.instr_ct;
         cycles += newRequest.instr_ct;
-        cycles++; // cache access + operation time
         for (int i = 0; i < cache.ways; i++)
         {
             cache_block &block = set[i];
