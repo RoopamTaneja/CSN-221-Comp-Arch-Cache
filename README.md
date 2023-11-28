@@ -109,15 +109,15 @@ Miss penalty = 30 cycles<br>
 
 ![Alt text](https://drive.google.com/uc?id=1_fRCZht0V5jooh1XhQwKeNLAPrfG4rOX)
 
-2. Cache Size = 4 KB and Associativity = 4
+2. Cache Size = 32 KB and Associativity = 4
 
 | Block Size (bytes) | No of Hits | Hit Rate (%) | AMAT (cycles) |
 | ------------------ | ---------- | ------------ | ------------- |
-| 4                  | 1431605    | 95.4403      | 2.3679        |
-| 16                 | 1411710    | 94.114       | 2.7658        |
-| 64                 | 1306340    | 87.0893      | 4.8732        |
+| 16                 | 1489895    | 99.3263      | 1.2021        |
+| 32                 | 1492446    | 99.4964      | 1.15108       |
+| 64                 | 1494508    | 99.6339      | 1.10984       |
 
-![Alt text](https://drive.google.com/uc?id=1NaiN7nG6UNtClCTSlMKS2ougTXQco8-F)
+![Alt text](https://drive.google.com/uc?id=1Dr-SPrNR2nNuV12WILcXiPx6gPzwIbSg)
 
 3. Cache Size = 4 KB and Block Size = 16 bytes
 
